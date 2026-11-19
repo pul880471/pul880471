@@ -1,0 +1,33 @@
+name: Update Local Time SVG
+
+on:
+  schedule:
+    - cron: "0 */3 * * *" # tiap 3 jam sekali
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-clock:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Generate SVG Clock (WITA)
+        run: |
+          TZ='Asia/Makassar' NOW=$(date +"%H:%M WITA • %d %b %Y")
+          mkdir -p assets
+          cat <<EOF > assets/clock.svg
+          <svg xmlns="http://www.w3.org/2000/svg" width="320" height="36">
+            <rect width="320" height="36" rx="6" fill="#111111"/>
+            <text x="16" y="23" fill="#e5e7eb" font-family="monospace" font-size="14">
+              Makassar: ${NOW}
+            </text>
+          </svg>
+          EOF
+      - name: Commit & Push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/clock.svg
+          git diff --staged --quiet || (git commit -m "chore: update local time" && git push)
