@@ -5,6 +5,10 @@
 </p>
 
 <p align="center">
+  <img src="./assets/clock.svg" alt="Local Time" />
+</p>
+
+<p align="center">
   <img src="https://komarev.com/ghpvc/?username=pul880471&style=for-the-badge" alt="Profile Views" />
 </p>
 
